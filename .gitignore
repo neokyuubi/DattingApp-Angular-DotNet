@@ -1,0 +1,63 @@
+# .NET 7 Web API project
+
+# Compiled binary files
+/bin/
+/obj/
+
+# Debug log
+/objektdebug.log
+
+# Application settings
+/appsettings*.json
+
+# User secrets
+/appsettings*.secrets.json
+
+# Local development database
+/app/*.db
+
+# Visual Studio settings
+/.vs/
+
+# .NET SDK ObjectCache
+/objekt.cache
+
+# Client-side libraries
+/wwwroot/lib/
+
+# Node.js dependencies
+/node_modules/
+
+
+
+
+# Angular App
+
+# Node.js dependencies
+/node_modules/
+
+# Compiled output
+/dist/
+/dist-server/
+/dist-test/
+
+# Cache and logs
+/.sass-cache/
+/coverage/
+/nx-cache/
+/nx-output/
+/logs/
+
+# IDE files
+/.vscode/
+/.idea/
+
+# Environment configuration
+/src/environments/*.js
+
+# Miscellaneous
+/.DS_Store
+/Thumbs.db
+
+# Customization: Exclude specific files or directories as needed
+
