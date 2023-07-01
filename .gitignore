@@ -49,7 +49,6 @@
 /logs/
 
 # IDE files
-/.vscode/
 /.idea/
 
 # Environment configuration
