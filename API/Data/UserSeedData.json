@@ -13,8 +13,8 @@
 		"Country": "Chile",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/women/2.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/women/2.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -32,8 +32,8 @@
 		"Country": "Burkina Faso",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/women/27.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/women/27.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -51,8 +51,8 @@
 		"Country": "Nigeria",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/women/20.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/women/20.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -70,8 +70,8 @@
 		"Country": "Zaire",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/women/42.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/women/42.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -89,8 +89,8 @@
 		"Country": "Reunion",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/women/9.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/women/9.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -108,8 +108,8 @@
 		"Country": "Bermuda",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/men/79.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/men/79.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -127,8 +127,8 @@
 		"Country": "Seychelles",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/men/21.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/men/21.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -146,8 +146,8 @@
 		"Country": "Barbados",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/men/15.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/men/15.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -165,8 +165,8 @@
 		"Country": "Venezuela",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/men/40.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/men/40.jpg",
+				"IsMain": true
 			}
 		]
 	},
@@ -184,8 +184,8 @@
 		"Country": "Portugal",
 		"Photos": [
 			{
-				"url": "https://randomuser.me/api/portraits/men/73.jpg",
-				"isMain": true
+				"Url": "https://randomuser.me/api/portraits/men/73.jpg",
+				"IsMain": true
 			}
 		]
 	}
