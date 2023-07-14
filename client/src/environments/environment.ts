@@ -1,5 +1,8 @@
 export const environment = {
   production: false,
-  apiBasedUrl: "https://localhost:7192/api/"
-  // apiBasedUrl: "http://localhost:7192/api/" // in case no https
+  protocol:"https", // http, // in case no https
+  port: "7192", // 5252, // in case no https
+  get apiBasedUrl() {
+    return `${this.protocol}://localhost:${this.port}/api/`;
+  }
 };
