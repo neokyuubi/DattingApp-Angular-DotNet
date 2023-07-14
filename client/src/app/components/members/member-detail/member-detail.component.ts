@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Member } from 'src/app/models/member';
+import { MembersService } from 'src/app/services/members.service';
 
 @Component({
   selector: 'app-member-detail',
@@ -7,9 +10,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MemberDetailComponent implements OnInit {
 
-  constructor() { }
+  member:Member|undefined;
 
-  ngOnInit(): void {
+  constructor(private memberService:MembersService, private activatedRoute:ActivatedRoute) { }
+
+  ngOnInit(): void
+  {
+    this.loadMember();
   }
+
+  loadMember()
+  {
+    const username = this.activatedRoute.snapshot.paramMap.get('username');
+    if(!username) return;
+    this.memberService.getMember(username).subscribe((member:Member)=>
+    {
+      this.member = member;
+    });
+  }
+
 
 }
