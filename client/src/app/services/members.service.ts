@@ -19,4 +19,9 @@ export class MembersService {
   {
     return this.http.get<Member>(environment.apiBasedUrl + "users/" + username);
   }
+
+  updateMember(member:Member)
+  {
+    return this.http.put(environment.apiBasedUrl + "users", member);
+  }
 }
