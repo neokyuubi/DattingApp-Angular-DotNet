@@ -19,7 +19,7 @@ export class AccountService {
     return this.http.post<User>(environment.apiBasedUrl + "account/login", model).pipe(
       map((user:User)=>
       {
-        this.localStorageSave(user);
+        this.setCurrent(user);
       })
     );
   }
@@ -27,22 +27,18 @@ export class AccountService {
   register(model:any)
   {
     return this.http.post<User>(environment.apiBasedUrl + "account/register", model).pipe(map(user=>{
-      this.localStorageSave(user);
+      this.setCurrent(user);
       return user;
     }))
   }
 
-  localStorageSave(obj:any)
-  {
-   if (obj) {
-     localStorage.setItem("user", JSON.stringify(obj));
-     this.currentUserSource.next(obj);
-   }
- }
-
   setCurrent(user:User)
   {
-    this.currentUserSource.next(user);
+    if (user)
+    {
+      localStorage.setItem("user", JSON.stringify(user));
+      this.currentUserSource.next(user);
+    }
   }
 
   logout()
