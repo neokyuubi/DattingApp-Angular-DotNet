@@ -44,26 +44,32 @@ namespace API.Data
 
 			query = query.Where(user => user.DateOfBirth >= minDateOfBirth && user.DateOfBirth <= maxDateOfBirth);
 
+			query = userParams.OrderBy switch
+			{
+				"created" => query.OrderByDescending(user => user.Created),
+				_ => query.OrderByDescending(user => user.LastActive)
+			};
+
 			return await PagedList<MemberDto>.CreateAsync(query.AsNoTracking()
 			.ProjectTo<MemberDto>(_mapper.ConfigurationProvider),
 			userParams.PageNumber,
 			userParams.PageSize);
 		}
 
-		// public async Task<AppUser> GetUserByIdAsync(int id)
-		// {
-		// 	return await _context.Users.FindAsync(id);
-		// }
+		public async Task<AppUser> GetUserByIdAsync(int id)
+		{
+			return await _context.Users.FindAsync(id);
+		}
 
 		public async Task<AppUser> GetUserByUsernameAsync(string username)
 		{
 			return await _context.Users.Include(photo => photo.Photos).SingleOrDefaultAsync(user=>user.UserName == username);
 		}
 
-		// public async Task<IEnumerable<AppUser>> GetUsersAsync()
-		// {
-		// 	return await _context.Users.Include(photo => photo.Photos).ToListAsync();
-		// }
+		public async Task<IEnumerable<AppUser>> GetUsersAsync()
+		{
+			return await _context.Users.Include(photo => photo.Photos).ToListAsync();
+		}
 
 		public async Task<bool> SaveAllAsync()
 		{
