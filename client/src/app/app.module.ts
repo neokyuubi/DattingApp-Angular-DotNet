@@ -44,6 +44,7 @@ import { DatePickerComponent } from './components/forms/date-picker/date-picker.
     PhotoEditorComponent,
     TextInputComponent,
     DatePickerComponent
+
   ],
   imports: [
     BrowserModule,
@@ -59,6 +60,9 @@ import { DatePickerComponent } from './components/forms/date-picker/date-picker.
     {provide: HTTP_INTERCEPTORS, useClass:JwtInterceptor, multi:true},
     {provide: HTTP_INTERCEPTORS, useClass:LoadingInterceptor, multi:true}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [
+
+  ]
 })
 export class AppModule { }
