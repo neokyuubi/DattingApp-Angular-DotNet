@@ -1,3 +1,16 @@
 {
-    "svn.ignoreMissingSvnWarning": true
+	"svn.ignoreMissingSvnWarning": true,
+	"separators.enabledSymbols": [
+		"Classes",
+		"Constructors",
+		"Enums",
+		"Functions",
+		"Interfaces",
+		"Methods",
+		"Namespaces",
+		"Structs"
+	],
+	"editor.insertSpaces": false,
+	"editor.detectIndentation": false,
+	"editor.tabSize": 4
 }
