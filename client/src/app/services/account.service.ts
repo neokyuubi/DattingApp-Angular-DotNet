@@ -20,6 +20,7 @@ export class AccountService {
       map((user:User)=>
       {
         this.setCurrent(user);
+		return user;
       })
     );
   }
@@ -28,7 +29,6 @@ export class AccountService {
   {
     return this.http.post<User>(environment.apiBasedUrl + "account/register", model).pipe(map(user=>{
       this.setCurrent(user);
-      return user;
     }))
   }
 
