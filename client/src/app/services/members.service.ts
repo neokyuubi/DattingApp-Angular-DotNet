@@ -131,4 +131,14 @@ export class MembersService
   {
 	return this.http.delete(environment.apiBasedUrl + "users/delete-photo/" + photoId, {});
   }
+
+  addLike(username:string)
+  {
+	return this.http.post(environment.apiBasedUrl + "likes/" + username, {});
+  }
+
+  getLikes(predicate:string)
+  {
+	return this.http.get<Member[]>(environment.apiBasedUrl + "likes?predicate=" + predicate);
+  }
 }
