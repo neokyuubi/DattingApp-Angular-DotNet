@@ -4,6 +4,7 @@ using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -57,6 +58,14 @@ namespace API.Controllers
 
 			Response.AddPaginationHeader(new PaginationHeader(messages.CurrentPage, messages.PageSize, messages.TotalCount, messages.TotalPages));
 			return messages;
+		}
+
+		[HttpGet("thread/{username}")]
+		public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string username)
+		{
+			var currentUsername = User.GetUsername();
+
+			return Ok(await _messagesRepository.GetMessageThread(currentUsername, username));
 		}
     }
 }
