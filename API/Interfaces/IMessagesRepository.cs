@@ -9,7 +9,7 @@ namespace API.Interfaces
     {
         void AddMessage(Message message);
 		
-		void DeleteMessage(Message message);
+		void DeleteMessageThread(Message message);
 
 		Task<Message> GetMessage(int id);
 
