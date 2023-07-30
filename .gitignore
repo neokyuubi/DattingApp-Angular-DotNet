@@ -480,3 +480,5 @@ $RECYCLE.BIN/
 API/appsettings.json
 API/datingapp.db-wal
 API/datingapp.db-shm
+
+.vscode/settings.json
