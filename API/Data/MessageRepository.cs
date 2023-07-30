@@ -24,7 +24,7 @@ namespace API.Data
 			_context.Messages.Add(message);
 		}
 
-		public void DeleteMessage(Message message)
+		public void DeleteMessageThread(Message message)
 		{
 			_context.Messages.Remove(message);
 		}
@@ -41,9 +41,13 @@ namespace API.Data
 
 			query = messageParams.Container switch
 			{
-				"Inbox" => query.Where(user => user.RecipientUsername == messageParams.Username),
-				"Outbox" => query.Where(user => user.SenderUsername == messageParams.Username),
-				_ =>  query.Where(user => user.RecipientUsername == messageParams.Username && user.DateRead == null)
+				"Inbox" => query.Where(message => message.RecipientUsername == messageParams.Username 
+				&& message.RecipientDeleted == false),
+				"Outbox" => query.Where(message => message.SenderUsername == messageParams.Username
+				&& message.SenderDeleted == false),
+				_ =>  query.Where(message => message.RecipientUsername == messageParams.Username 
+				&& message.RecipientDeleted == false
+				&& message.DateRead == null)
 			};
 
 			var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
@@ -57,9 +61,11 @@ namespace API.Data
 			var messages = await _context.Messages
 			.Include(message => message.Sender).ThenInclude(user => user.Photos)
 			.Where(
-				message => message.RecipientUsername == currentUserName 
+				message => message.RecipientUsername == currentUserName
+				&& message.RecipientDeleted == false
 				&& message.SenderUsername == recipientUserName
 				|| message.RecipientUsername == recipientUserName 
+				&& message.SenderDeleted == false
 				&& message.SenderUsername == currentUserName
 			)
 			.OrderBy(message => message.MessageSent)
