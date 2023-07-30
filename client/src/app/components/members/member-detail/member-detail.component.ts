@@ -16,9 +16,9 @@ import { Message } from '../../../models/message';
 export class MemberDetailComponent implements OnInit
 {
 
-	@ViewChild('memberTabs') memberTabs? : TabsetComponent;
+	@ViewChild('memberTabs', {static:true}) memberTabs? : TabsetComponent;
 
-	member: Member | undefined;
+	member: Member = {} as Member;
 	galleryOptions: NgxGalleryOptions[] = [];
 	galleryImages: NgxGalleryImage[] = [];
 	activeTab?: TabDirective;
@@ -28,7 +28,15 @@ export class MemberDetailComponent implements OnInit
 
 	ngOnInit(): void
 	{
-		this.loadMember();
+		this.activatedRoute.data.subscribe((data) =>
+		{
+			this.member = data['member'];
+		});
+
+		this.activatedRoute.queryParams.subscribe((params)=>
+		{
+			params['tab'] && this.selectTab(params['tab']);
+		});
 
 		this.galleryOptions = [
 			{
@@ -40,8 +48,10 @@ export class MemberDetailComponent implements OnInit
 				preview: false
 			}
 		];
-
+		this.galleryImages = this.getImages();
 	}
+
+
 
 	getImages()
 	{
@@ -58,16 +68,15 @@ export class MemberDetailComponent implements OnInit
 		return imageUrls;
 	}
 
-	loadMember()
+
+	selectTab(heading:string)
 	{
-		const username = this.activatedRoute.snapshot.paramMap.get('username');
-		if (!username) return;
-		this.memberService.getMember(username).subscribe((member: Member) =>
+		if (this.memberTabs)
 		{
-			this.member = member;
-			this.galleryImages = this.getImages();
-		});
+			this.memberTabs.tabs.find(tab => tab.heading == heading)!.active = true;
+		}
 	}
+
 
 	loadMessages()
 	{
