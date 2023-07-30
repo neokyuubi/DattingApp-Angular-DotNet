@@ -17,4 +17,9 @@ export class MessageService {
 	params = params.append("container", container);
 	return getPaginatedResult<Message[]>(environment.apiBasedUrl + "messages", params, this.http);
   }
+
+  getMessageThread(username:string)
+  {
+	return this.http.get<Message[]>(environment.apiBasedUrl + 'messages/thread/' + username);
+  }
 }
