@@ -3,6 +3,7 @@ using API.Data;
 using API.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace API.Extensions
@@ -27,6 +28,12 @@ namespace API.Extensions
                     ValidateAudience = false
                 };
             });
+
+			services.AddAuthorization(Options => 
+			{
+				Options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+				Options.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
+			});
 
             return services;
         }
