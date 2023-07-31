@@ -5,47 +5,57 @@ import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
-export class AccountService {
+export class AccountService
+{
 
-  private currentUserSource = new BehaviorSubject<User | null>(null);
-  currentUser$ = this.currentUserSource.asObservable();
+	private currentUserSource = new BehaviorSubject<User | null>(null);
+	currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private http:HttpClient) { }
+	constructor(private http: HttpClient) { }
 
-  login(model:any)
-  {
-    return this.http.post<User>(environment.apiBasedUrl + "account/login", model).pipe(
-      map((user:User)=>
-      {
-        this.setCurrent(user);
-		return user;
-      })
-    );
-  }
+	login(model: any)
+	{
+		return this.http.post<User>(environment.apiBasedUrl + "account/login", model).pipe(
+			map((user: User) =>
+			{
+				this.setCurrent(user);
+				return user;
+			})
+		);
+	}
 
-  register(model:any)
-  {
-    return this.http.post<User>(environment.apiBasedUrl + "account/register", model).pipe(map(user=>{
-      this.setCurrent(user);
-    }))
-  }
+	register(model: any)
+	{
+		return this.http.post<User>(environment.apiBasedUrl + "account/register", model).pipe(map(user =>
+		{
+			this.setCurrent(user);
+		}))
+	}
 
-  setCurrent(user:User)
-  {
-    if (user)
-    {
-      localStorage.setItem("user", JSON.stringify(user));
-      this.currentUserSource.next(user);
-    }
-  }
+	setCurrent(user: User)
+	{
+		if (user)
+		{
+			user.roles = [];
+			const roles = this.getDecodedToken(user.token).role;
+			Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
+			localStorage.setItem("user", JSON.stringify(user));
+			this.currentUserSource.next(user);
+		}
+	}
 
-  logout()
-  {
-    localStorage.removeItem("user");
-    this.currentUserSource.next(null);
-  }
+	logout()
+	{
+		localStorage.removeItem("user");
+		this.currentUserSource.next(null);
+	}
+
+	getDecodedToken(token: string)
+	{
+		return JSON.parse(atob(token.split(".")[1]));
+	}
 
 
 }
