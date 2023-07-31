@@ -10,6 +10,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { TimeagoPipe } from '../pipes/timeago.pipe';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { TimeagoPipe } from '../pipes/timeago.pipe';
     BsDatepickerModule.forRoot(),
     PaginationModule.forRoot(),
 	ButtonsModule.forRoot(),
-
+	ModalModule.forRoot()
   ],
   exports:
   [
@@ -44,7 +45,8 @@ import { TimeagoPipe } from '../pipes/timeago.pipe';
     BsDatepickerModule,
     PaginationModule,
 	ButtonsModule,
-	TimeagoPipe
+	TimeagoPipe,
+	ModalModule
   ]
 })
 export class SharedModule { }
