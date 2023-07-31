@@ -15,13 +15,13 @@ namespace API.Controllers
     {
         private readonly DataContext _context;
         private readonly ITokenService _tokenService;
-        public IMapper _mapper { get; }
+		private readonly IMapper _mapper;
 
-        public AccountController(DataContext context, ITokenService tokenService, IMapper mapper)
+		public AccountController(DataContext context, ITokenService tokenService, IMapper mapper)
         {
             _mapper = mapper;
             _tokenService = tokenService;
-            _context = context;
+			_context = context;
         }
 
         [HttpPost("register")] // api/account/register
@@ -34,11 +34,9 @@ namespace API.Controllers
 
 			var user = _mapper.Map<AppUser>(registerDto); // get AppUser from RegisterDto
 
-            using var hmac = new HMACSHA512();
 
 			user.UserName = registerDto.UserName.ToLower();
-			user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
-			user.PasswordSalt = hmac.Key;
+
 
 
             _context.Users.Add(user);
@@ -58,17 +56,6 @@ namespace API.Controllers
         {
             var user = await _context.Users.Include(photo => photo.Photos).SingleOrDefaultAsync<AppUser>(user => user.UserName == loginDto.UserName);
             if (user == null) return Unauthorized("invalid username");
-
-            using var hmac = new HMACSHA512(user.PasswordSalt);
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
-
-            for (int i = 0; i < computedHash.Length; i++)
-            {
-                if (computedHash[i] != user.PasswordHash[i])
-                {
-                    return Unauthorized("invalid password");
-                }
-            }
             
             return new UserDto
             {
