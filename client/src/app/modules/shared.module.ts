@@ -9,12 +9,13 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
-import { TimeagoPipe } from '../pipes/timeago.pipe';
+// import { TimeagoPipe } from '../pipes/timeago.pipe';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgxPrettyDateModule } from 'ngx-pretty-date';
 
 @NgModule({
   declarations: [
-	TimeagoPipe
+	// TimeagoPipe
   ],
   imports: [
     CommonModule,
@@ -32,7 +33,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     BsDatepickerModule.forRoot(),
     PaginationModule.forRoot(),
 	ButtonsModule.forRoot(),
-	ModalModule.forRoot()
+	ModalModule.forRoot(),
+	NgxPrettyDateModule
   ],
   exports:
   [
@@ -45,8 +47,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     BsDatepickerModule,
     PaginationModule,
 	ButtonsModule,
-	TimeagoPipe,
-	ModalModule
+	// TimeagoPipe,
+	ModalModule,
+	NgxPrettyDateModule
   ]
 })
 export class SharedModule { }
