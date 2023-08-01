@@ -26,7 +26,7 @@ namespace API.Middleware
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, ex.Message);
+				_logger.LogError(ex, "An unhandled exception occurred: {Message}", ex.Message);
 				context.Response.ContentType = "aplication/json";
 				context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
 
