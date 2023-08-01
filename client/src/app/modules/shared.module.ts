@@ -9,13 +9,13 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
-// import { TimeagoPipe } from '../pipes/timeago.pipe';
+import { TimeagoPipe } from '../pipes/timeago.pipe';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxPrettyDateModule } from 'ngx-pretty-date';
 
 @NgModule({
   declarations: [
-	// TimeagoPipe
+	TimeagoPipe
   ],
   imports: [
     CommonModule,
@@ -47,7 +47,7 @@ import { NgxPrettyDateModule } from 'ngx-pretty-date';
     BsDatepickerModule,
     PaginationModule,
 	ButtonsModule,
-	// TimeagoPipe,
+	TimeagoPipe,
 	ModalModule,
 	NgxPrettyDateModule
   ]
