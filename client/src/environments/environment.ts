@@ -4,5 +4,8 @@ export const environment = {
   port: "7192", // 5252, // in case no https
   get apiBasedUrl() {
     return `${this.protocol}://localhost:${this.port}/api/`;
+  },
+  get hubUrl() {
+    return `${this.protocol}://localhost:${this.port}/hubs/`;
   }
 };
