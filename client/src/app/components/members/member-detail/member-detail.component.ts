@@ -7,6 +7,7 @@ import { Photo } from 'src/app/models/photo';
 import { MembersService } from 'src/app/services/members.service';
 import { MessageService } from '../../../services/message.service';
 import { Message } from '../../../models/message';
+import { PresenceService } from '../../../services/presence.service';
 
 @Component({
 	selector: 'app-member-detail',
@@ -24,7 +25,8 @@ export class MemberDetailComponent implements OnInit
 	activeTab?: TabDirective;
 	messages:Message[] = [];
 
-	constructor(private memberService: MembersService, private activatedRoute: ActivatedRoute, private messageService:MessageService) { }
+	constructor(private memberService: MembersService, private activatedRoute: ActivatedRoute,
+		private messageService:MessageService, public presenceService:PresenceService) { }
 
 	ngOnInit(): void
 	{
