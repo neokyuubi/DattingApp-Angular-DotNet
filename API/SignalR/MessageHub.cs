@@ -29,8 +29,15 @@ namespace API.SignalR
 			var otherUser = httpContext.Request.Query["user"];
 			var groupName = GetGroupName(Context.User.GetUsername(), otherUser);
 			await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+			await AddToGroup(groupName);
 			var messages = await _messagesRepository.GetMessageThread(Context.User.GetUsername(), otherUser);
 			await Clients.Group(groupName).SendAsync("ReceiveMessageThread", messages);
+		}
+		
+		public override async Task OnDisconnectedAsync(Exception exception)
+		{
+			await RemoveFromMessageGroup();
+			await base.OnDisconnectedAsync(exception);
 		}
 
 		public async Task SendMessage(CreateMessageDto createMessageDto)
@@ -53,12 +60,20 @@ namespace API.SignalR
 				Content = createMessageDto.Content
 			};
 
+			var groupName = GetGroupName(sender.UserName, recipient.UserName);
+
+			var group = await _messagesRepository.GetMessageGroup(groupName);
+
+			if (group.Connections.Any(connection => connection.Username == recipient.UserName))
+			{
+				message.DateRead = DateTime.UtcNow;
+			}
+
 			_messagesRepository.AddMessage(message);
 
 			if (await _messagesRepository.SaveAllAsync())
 			{
-				var group = GetGroupName(sender.UserName, recipient.UserName);
-				await Clients.Group(group).SendAsync("NewMessage", _mapper.Map<MessageDto>(message));
+				await Clients.Group(groupName).SendAsync("NewMessage", _mapper.Map<MessageDto>(message));
 			}
 		}
 
@@ -68,9 +83,26 @@ namespace API.SignalR
 			return stringCompare ? $"{caller}-{other}" : $"{other}-{caller}";
 		}
 
-		public override Task OnDisconnectedAsync(Exception exception)
+		private async Task<bool> AddToGroup(string groupName)
 		{
-			return base.OnDisconnectedAsync(exception);
+			var group = await _messagesRepository.GetMessageGroup(groupName);
+			var connection = new Connection(Context.ConnectionId, Context.User.GetUsername());
+			if (group == null)
+			{
+				group = new Group(groupName);
+				_messagesRepository.AddGroup(group);
+			}
+
+			group.Connections.Add(connection);
+
+			return await _messagesRepository.SaveAllAsync();
+		}
+
+		private async Task RemoveFromMessageGroup()
+		{
+			var connection = await _messagesRepository.GetConnection(Context.ConnectionId);
+			_messagesRepository.RemoveConnection(connection);
+			await _messagesRepository.SaveAllAsync();
 		}
 	}
 }
