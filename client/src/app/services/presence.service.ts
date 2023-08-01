@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class PresenceService
 {
-	private hubConnection?: HubConnection
+	private hubConnection?: HubConnection;
 	private onlineUsersSource = new BehaviorSubject<string[]>([]);
 	onlineUsers$ = this.onlineUsersSource.asObservable();
 
