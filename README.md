@@ -11,7 +11,8 @@ To run the application locally, ensure you have the following installed:
 1. [.NET7 SDK](https://dotnet.microsoft.com/download/dotnet/7.0)
 2. [Node.js](https://nodejs.org/) (v14 or higher)
 3. [Angular CLI](https://angular.io/cli) (v14 or higher)
-4. [Docker](https://www.docker.com/) (optional - if you prefer running the app using Docker)
+4. [Postgres]([https://angular.io/cli](https://www.postgresql.org/))
+5. [Docker](https://www.docker.com/) (optional - if you prefer running the app using Docker)
 
 ### Launching the Application Locally
 
@@ -41,4 +42,6 @@ If you don't want to install and run without SSL then :
 Uncomment line 47 and comment out line 48 in `API/Program.cs`.
 
 and then rebuild the application by `ng build`
+
+
 
