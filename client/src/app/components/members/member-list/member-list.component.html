@@ -2,7 +2,7 @@
 	<h2>Your matches - {{pagination?.totalItems}} found</h2>
 </div>
 
-<div class="container mt-3" *ngIf="userParams">
+<div class="container mt-3 pb-1" *ngIf="userParams">
 	<form #form="ngForm" class="d-flex mb-3" (ngSubmit)="loadMembers()" autocomplete="off">
 		<div class="d-flex mx-2">
 			<label class="col-form-label">Age from: </label>
@@ -45,7 +45,7 @@
 	</form>
 </div>
 
-<div class="row">
+<div class="row" id="list">
   <div class="col-2" *ngFor="let member of members">
     <app-member-card [member]="member"></app-member-card>
   </div>
