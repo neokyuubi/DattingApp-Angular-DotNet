@@ -3,7 +3,7 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "datingapp-algular-dotnet"
+app = "neo-ark-datingapp"
 primary_region = "lhr"
 
 [http_service]
