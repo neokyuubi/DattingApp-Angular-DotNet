@@ -483,3 +483,5 @@ API/datingapp.db-shm
 API/datingapp.db
 
 .vscode/settings.json
+
+API/wwwroot
