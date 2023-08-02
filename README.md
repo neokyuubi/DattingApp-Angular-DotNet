@@ -25,7 +25,9 @@ To run the application locally, ensure you have the following installed:
 ### Running with Docker
 Alternatively, you can use Docker to run the application by following these steps:
 
-1. Pull the Docker image by : `docker pull neokyuubi/datingapp`
+0. pull and run and Postgres image.
+
+1. Pull the application image by : `docker pull neokyuubi/datingapp`
 
 2. then build it : `docker build -t neokyuubi/datingapp`
 
