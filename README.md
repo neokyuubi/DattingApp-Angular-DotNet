@@ -45,5 +45,13 @@ Uncomment line 47 and comment out line 48 in `API/Program.cs`.
 
 and then rebuild the application by `ng build`
 
+### Demonstration
 
+![Demo 1](./Demos/Desktop%208-2-2023%205-12-35%20PM.gif)
+![Demo 1](./Demos/Desktop%208-2-2023%205-20-32%20PM.gif)
+![Demo 1](./Demos/Desktop%208-2-2023%205-14-02%20PM.gif)
+![Demo 1](./Demos/Desktop%208-2-2023%205-26-06%20PM.gif)
+![Demo 1](./Demos/Desktop%208-2-2023%205-09-49%20PM.gif)
+![Demo 1](./Demos/Desktop%208-2-2023%205-23-10%20PM.gif)
+![Demo 1](./Demos/Desktop%208-2-2023%205-19-06%20PM.gif)
 
