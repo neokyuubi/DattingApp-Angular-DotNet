@@ -11,7 +11,7 @@ To run the application locally, ensure you have the following installed:
 1. [.NET7 SDK](https://dotnet.microsoft.com/download/dotnet/7.0)
 2. [Node.js](https://nodejs.org/) (v14 or higher)
 3. [Angular CLI](https://angular.io/cli) (v14 or higher)
-4. [Postgres]([https://angular.io/cli](https://www.postgresql.org/))
+4. [PostgresSQL](https://postgresql.org/)
 5. [Docker](https://www.docker.com/) (optional - if you prefer running the app using Docker)
 
 ### Launching the Application Locally
