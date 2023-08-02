@@ -10,6 +10,8 @@ import { PresenceService } from '../../../services/presence.service';
 import { AccountService } from '../../../services/account.service';
 import { User } from '../../../models/user';
 import { take } from 'rxjs';
+import { MembersService } from '../../../services/members.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
 	selector: 'app-member-detail',
@@ -28,15 +30,16 @@ export class MemberDetailComponent implements OnInit, OnDestroy
 	messages:Message[] = [];
 	user?:User;
 
-	constructor(private accountService: AccountService, private activatedRoute: ActivatedRoute,
+	constructor(private memberService:MembersService, private toaster:ToastrService, private accountService: AccountService,
+		private activatedRoute: ActivatedRoute,
 		private messageService:MessageService, public presenceService:PresenceService,
 		private router:Router)
 	{
-		accountService.currentUser$.pipe(take(1)).subscribe((user) =>
+		this.accountService.currentUser$.pipe(take(1)).subscribe((user) =>
 		{
 			if(user) this.user = user;
 		});
-		router.routeReuseStrategy.shouldReuseRoute = () => false;
+		this.router.routeReuseStrategy.shouldReuseRoute = () => false;
 	}
 
 	ngOnInit(): void
@@ -102,6 +105,14 @@ export class MemberDetailComponent implements OnInit, OnDestroy
 		}
 	}
 
+	addLike(member:Member)
+	{
+		this.memberService.addLike(member.userName).subscribe(()=>
+		{
+			this.toaster.success("You have liked " + member.knownAs);
+		});
+	}
+
 	onTabActivated(data:TabDirective)
 	{
 		this.activeTab = data;
@@ -111,7 +122,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy
 		}
 		else
 		{
-			
+
 			this.messageService.stopHubConnection();
 		}
 	}

@@ -35,7 +35,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             }
             else
             {
-              this.toaster.error("!!!!" + error.error, error.status.toString())
+              this.toaster.error(error.error, error.status.toString())
             }
             break;
           case 401:

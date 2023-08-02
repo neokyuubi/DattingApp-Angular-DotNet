@@ -23,7 +23,8 @@ import { NgxPrettyDateModule } from 'ngx-pretty-date';
     TabsModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
-      progressBar:true
+      progressBar:true,
+	  timeOut: 10000
     }),
     NgxGalleryModule,
     NgxSpinnerModule.forRoot({
