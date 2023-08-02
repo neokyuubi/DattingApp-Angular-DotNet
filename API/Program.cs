@@ -44,12 +44,8 @@ var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
 
-// TODO :: app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200")); // if no ssl certifacate is installed
-app.UseCors(builder => builder
-.AllowAnyHeader()
-.AllowAnyMethod()
-.AllowCredentials()
-.WithOrigins("https://localhost:4200"));
+// app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200")); // if no ssl certifacate is installed
+app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://localhost:4200"));
 
 
 app.UseAuthentication();
