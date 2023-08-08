@@ -19,7 +19,7 @@ if (builder.Environment.IsDevelopment())
     connString = builder.Configuration.GetConnectionString("DefaultConnection");
 else 
 {
-// Use connection string provided at runtime by Heroku.
+// Use connection string provided at runtime by Heroku (PAID now so cannot test it anymore).
         var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
         // Parse connection URL to connection string for Npgsql
