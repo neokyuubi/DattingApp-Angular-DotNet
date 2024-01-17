@@ -22,9 +22,10 @@ namespace API.Extensions
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
+		    var tokenKey = config["TokenKey"];
 		    Console.WriteLine($"TokenKey: {tokenKey}");
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"])),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey)),
                     ValidateIssuer = false, // API is issuer
                     ValidateAudience = false
                 };
