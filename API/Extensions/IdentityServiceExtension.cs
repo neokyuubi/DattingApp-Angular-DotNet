@@ -18,7 +18,7 @@ namespace API.Extensions
 			.AddEntityFrameworkStores<DataContext>();
 
 	    var tokenKey = config["TokenKey"];
-	    Console.WriteLine($"TokenKey: {tokenKey}");
+	    Console.WriteLine(tokenKey);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
