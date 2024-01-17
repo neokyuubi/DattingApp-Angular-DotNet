@@ -17,13 +17,13 @@ namespace API.Extensions
 			.AddRoleManager<RoleManager<AppRole>>()
 			.AddEntityFrameworkStores<DataContext>();
 
+	    var tokenKey = config["TokenKey"];
+	    Console.WriteLine($"TokenKey: {tokenKey}");
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-		    var tokenKey = config["TokenKey"];
-		    Console.WriteLine($"TokenKey: {tokenKey}");
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey)),
                     ValidateIssuer = false, // API is issuer
