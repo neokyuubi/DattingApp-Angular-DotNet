@@ -15,7 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 
-var connString = "";
+// var connString = "";
 // if (builder.Environment.IsDevelopment()) 
 //     connString = builder.Configuration.GetConnectionString("DefaultConnection");
 // else 
@@ -36,7 +36,8 @@ var connString = "";
 
 //         connString = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};";
 // }
-connString = builder.Configuration.GetConnectionString("DefaultConnection");
+// connString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connString = Environment.GetEnvironmentVariable("DATABASE_URL") ?? builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(opt =>
 {
     opt.UseNpgsql(connString);
