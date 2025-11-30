@@ -32,3 +32,8 @@ jobs:
           tags: neokyuubi/datingapp:latest
           cache-from: type=registry,ref=neokyuubi/datingapp:latest
           cache-to: type=inline
+      
+      - name: Trigger Render deployment
+        if: success()
+        run: |
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
