@@ -33,6 +33,11 @@ export class ErrorInterceptor implements HttpInterceptor {
               }
               throw modelStateErrors.flat();
             }
+            else if (Array.isArray(error.error))
+            {
+              // Handle array of error strings (e.g., from Identity validation)
+              throw error.error;
+            }
             else
             {
               this.toaster.error(error.error, error.status.toString())

@@ -39,11 +39,19 @@ namespace API.Controllers
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-			if(!result.Succeeded) return BadRequest(result.Errors);
+			if(!result.Succeeded) 
+			{
+				var errors = result.Errors.Select(e => e.Description).ToArray();
+				return BadRequest(errors);
+			}
 
 			var roleResult = await _userManager.AddToRoleAsync(user, "Member");
 
-			if(!roleResult.Succeeded) return BadRequest(result.Errors);
+			if(!roleResult.Succeeded) 
+			{
+				var errors = roleResult.Errors.Select(e => e.Description).ToArray();
+				return BadRequest(errors);
+			}
 
             return new UserDto
             {

@@ -12,7 +12,14 @@ namespace API.Extensions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
         {
-			services.AddIdentityCore<AppUser>(options=>{options.Password.RequireNonAlphanumeric = false;})
+			services.AddIdentityCore<AppUser>(options=>
+			{
+				options.Password.RequireNonAlphanumeric = false;
+				options.Password.RequireDigit = false;
+				options.Password.RequireUppercase = false;
+				options.Password.RequireLowercase = false;
+				options.Password.RequiredLength = 4;
+			})
 			.AddRoles<AppRole>()
 			.AddRoleManager<RoleManager<AppRole>>()
 			.AddEntityFrameworkStores<DataContext>();
