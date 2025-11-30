@@ -9,9 +9,6 @@ on:
 
 jobs:
   docker:
-    # Only run on pushes to the original repository (neokyuubi/DattingApp-Angular-DotNet)
-    # This prevents forks from triggering builds that would push to your Docker Hub
-    if: github.repository == 'neokyuubi/DattingApp-Angular-DotNet'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -19,6 +16,22 @@ jobs:
       
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+      
+      - name: Determine Docker image name
+        id: docker-image
+        run: |
+          # Use custom image name from secret if provided, otherwise use repository owner/name
+          if [ -n "${{ secrets.DOCKERHUB_IMAGE_NAME }}" ]; then
+            IMAGE_NAME="${{ secrets.DOCKERHUB_IMAGE_NAME }}"
+          else
+            # Default: use repository owner and name (e.g., neokyuubi/datingapp)
+            REPO_OWNER="${{ github.repository_owner }}"
+            REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2 | tr '[:upper:]' '[:lower:]')
+            # Remove 'DattingApp' and use simpler name
+            IMAGE_NAME="${REPO_OWNER}/datingapp"
+          fi
+          echo "image_name=${IMAGE_NAME}" >> $GITHUB_OUTPUT
+          echo "Using Docker image: ${IMAGE_NAME}"
       
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -32,11 +45,11 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: neokyuubi/datingapp:latest
-          cache-from: type=registry,ref=neokyuubi/datingapp:latest
+          tags: ${{ steps.docker-image.outputs.image_name }}:latest
+          cache-from: type=registry,ref=${{ steps.docker-image.outputs.image_name }}:latest
           cache-to: type=inline
       
       - name: Trigger Render deployment
-        if: success()
+        if: success() && secrets.RENDER_DEPLOY_HOOK != ''
         run: |
           curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"

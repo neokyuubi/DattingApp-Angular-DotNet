@@ -144,16 +144,26 @@ var allowedOrigins = new[] {
 
 This project includes GitHub Actions that:
 - Builds Docker image on push to `main`/`master`
-- Pushes to Docker Hub: `neokyuubi/datingapp:latest`
+- Pushes to Docker Hub (uses your own Docker Hub account)
 - Triggers Render deployment (if `RENDER_DEPLOY_HOOK` secret is configured)
 
 ### Setup GitHub Secrets
 
 1. Go to your GitHub repository → Settings → Secrets and variables → Actions
-2. Add these secrets:
+2. Add these **required** secrets:
    - `DOCKERHUB_USERNAME` - Your Docker Hub username
    - `DOCKERHUB_TOKEN` - Your Docker Hub access token
-   - `RENDER_DEPLOY_HOOK` - Your Render deploy hook URL (optional)
+3. Add these **optional** secrets:
+   - `DOCKERHUB_IMAGE_NAME` - Custom Docker image name (e.g., `yourusername/your-image`). If not set, defaults to `yourusername/datingapp`
+   - `RENDER_DEPLOY_HOOK` - Your Render deploy hook URL (only if you want auto-deploy to Render)
+
+### For Forks
+
+If you fork this repository:
+- The workflow will automatically use **your** Docker Hub account (from your secrets)
+- The Docker image will be pushed to **your** Docker Hub: `yourusername/datingapp:latest` (or custom name if set)
+- You need to add your own `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` secrets in your fork's settings
+- Each fork uses its own Docker Hub account - no conflicts!
 
 ## 🔒 Security Notes
 
