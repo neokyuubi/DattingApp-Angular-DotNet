@@ -14,7 +14,18 @@ namespace API.Extensions
             services.AddCors();
             services.AddScoped<ITokenService, TokenService>();
 			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-			services.Configure<CloudinarySettings>(config.GetSection("CouldinarySettings"));
+			
+			// Configure Cloudinary settings - use environment variables in production, config in development
+			services.Configure<CloudinarySettings>(options =>
+			{
+				options.CloudName = Environment.GetEnvironmentVariable("CLOUDINARY_CLOUD_NAME") 
+					?? config["CouldinarySettings:CloudName"];
+				options.ApiKey = Environment.GetEnvironmentVariable("CLOUDINARY_API_KEY") 
+					?? config["CouldinarySettings:ApiKey"];
+				options.ApiSecret = Environment.GetEnvironmentVariable("CLOUDINARY_API_SECRET") 
+					?? config["CouldinarySettings:ApiSecret"];
+			});
+			
 			services.AddScoped<IPhotoService, PhotoService>();
 			services.AddScoped<LogUserActivity>();
 			services.AddSignalR();

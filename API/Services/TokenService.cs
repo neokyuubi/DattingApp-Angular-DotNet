@@ -15,7 +15,9 @@ namespace API.Services
 
 		public TokenService(IConfiguration config, UserManager<AppUser> userManager)
         {
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
+            // Read TokenKey from environment variable in production, or config in development
+            var tokenKey = Environment.GetEnvironmentVariable("TokenKey") ?? config["TokenKey"];
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
 			_userManager = userManager;
 		}
 
