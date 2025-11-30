@@ -50,6 +50,10 @@ jobs:
           cache-to: type=inline
       
       - name: Trigger Render deployment
-        if: success() && secrets.RENDER_DEPLOY_HOOK != ''
+        if: success()
         run: |
-          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+          if [ -n "${{ secrets.RENDER_DEPLOY_HOOK }}" ]; then
+            curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+          else
+            echo "RENDER_DEPLOY_HOOK secret not set, skipping deployment trigger"
+          fi
