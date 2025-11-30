@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # Local PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: dating-app-db
+    environment:
+      POSTGRES_USER: datingapp_user
+      POSTGRES_PASSWORD: datingapp_password
+      POSTGRES_DB: datingapp_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U datingapp_user -d datingapp_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Dating App
+  dating-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dating-app-local
+    ports:
+      - "8080:8080"
+    environment:
+      # Database connection (local PostgreSQL)
+      - DATABASE_URL=postgresql://datingapp_user:datingapp_password@postgres:5432/datingapp_db?sslmode=disable
+      # JWT Token Key
+      - TokenKey=oWQYGogAReSXQ7poAn-55uXWmO7lXAg1eH7DjHLJTyc7lGJnLpi0lC4v2CUeJUBAv8oMTwfglYPvcT-s_tn0V0
+      # Cloudinary settings (free tier - no code changes needed)
+      # Note: Cloudinary free tier is very generous (25GB storage, 25GB bandwidth/month)
+      # For truly local storage, code changes would be required
+      - CLOUDINARY_CLOUD_NAME=dvebxsofu
+      - CLOUDINARY_API_KEY=294211664547824
+      - CLOUDINARY_API_SECRET=eHFoQUGjlcOpNm2DG7iv5hxTCOM
+      # ASP.NET Core environment (set to Production for Docker)
+      - ASPNETCORE_ENVIRONMENT=Production
+      # ASP.NET Core URLs
+      - ASPNETCORE_URLS=http://+:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
