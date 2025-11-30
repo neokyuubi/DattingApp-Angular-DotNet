@@ -129,16 +129,6 @@ In your Web Service settings, add these environment variables:
 2. Render will automatically build and deploy
 3. Or manually trigger a deploy from the Render dashboard
 
-### Step 4: Configure CORS (if needed)
-
-The code automatically allows your Render URL. If you need to add more origins, update `API/Program.cs`:
-
-```csharp
-var allowedOrigins = new[] { 
-    "https://your-app.onrender.com",
-    "http://localhost:4200" 
-};
-```
 
 ## 🔄 Automatic Deployment
 
@@ -165,40 +155,6 @@ If you fork this repository:
 - You need to add your own `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` secrets in your fork's settings
 - Each fork uses its own Docker Hub account - no conflicts!
 
-## 🔒 Security Notes
-
-- ⚠️ **Never commit `.env` file to git!** (It's already in `.gitignore`)
-- ✅ The `.env.example` file is safe to commit (it's a template)
-- 🔑 Rotate your secrets if they were ever exposed in git history
-- 🔐 **Repository Protection:** Only the owner can push to this repository. Forks cannot push to the original repo.
-
-## 📝 Environment Variables Reference
-
-All configuration is done through environment variables:
-
-- `DATABASE_URL` - PostgreSQL connection string (format: `postgresql://user:pass@host:port/db`)
-- `TokenKey` - JWT token signing key
-- `CLOUDINARY_CLOUD_NAME` - Cloudinary cloud name
-- `CLOUDINARY_API_KEY` - Cloudinary API key  
-- `CLOUDINARY_API_SECRET` - Cloudinary API secret
-- `ASPNETCORE_ENVIRONMENT` - `Development` or `Production`
-- `ASPNETCORE_URLS` - URLs to listen on (default: `http://+:8080`)
-
-## 🛠️ Troubleshooting
-
-### Database Connection Issues
-- Check that `DATABASE_URL` is correctly formatted
-- For local Docker: ensure database container is running
-- For Render: use the **Internal Database URL** (not external)
-
-### SSL Connection Errors
-- Local databases automatically disable SSL
-- For Render databases, SSL is required (handled automatically)
-
-### CORS Errors
-- Check that your frontend URL is in the allowed origins list
-- For local: `http://localhost:4200` is allowed
-- For production: Your Render URL is automatically allowed
 
 ### Demonstration
 
