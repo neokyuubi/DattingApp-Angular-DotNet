@@ -5,7 +5,6 @@ import { HomeComponent } from './components/home/home.component';
 import { ListsComponent } from './components/lists/lists.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { AuthGuard } from './guards/auth.guard';
-import { TestErrorComponent } from './errors/test-error/test-error.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { MemberListComponent } from './components/members/member-list/member-list.component';
@@ -30,7 +29,6 @@ const routes: Routes = [
         {path:"admin", component:AdminPanelComponent, canActivate: [AdminGuard]}
     ]
   },
-  {path:"errors", component:TestErrorComponent},
   {path:"not-fount", component:NotFoundComponent},
   {path:"server-error", component:ServerErrorComponent},
   {path:"**", component:NotFoundComponent, pathMatch:"full"}
