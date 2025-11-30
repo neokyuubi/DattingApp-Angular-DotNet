@@ -155,17 +155,6 @@ This project includes GitHub Actions that:
    - `DOCKERHUB_TOKEN` - Your Docker Hub access token
    - `RENDER_DEPLOY_HOOK` - Your Render deploy hook URL (optional)
 
-## 🤝 Contributing
-
-This repository is open for cloning and testing. If you want to contribute:
-
-1. **Fork the repository** (you cannot push directly to this repo)
-2. Make your changes in your fork
-3. Create a Pull Request if you want to contribute back
-4. See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed instructions
-
-**Note:** If you fork this repo, update the GitHub Actions workflow to use your own Docker Hub account (see CONTRIBUTING.md).
-
 ## 🔒 Security Notes
 
 - ⚠️ **Never commit `.env` file to git!** (It's already in `.gitignore`)
