@@ -478,6 +478,7 @@ $RECYCLE.BIN/
 
 # Extra
 API/appsettings.json
+API/appsettings.Development.json
 API/datingapp.db-wal
 API/datingapp.db-shm
 API/datingapp.db
@@ -485,3 +486,9 @@ API/datingapp.db
 .vscode/settings.json
 
 API/wwwroot
+
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+docker-compose.override.yml
