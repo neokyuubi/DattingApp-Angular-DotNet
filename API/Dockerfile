@@ -4,7 +4,8 @@ WORKDIR /app
 # Copy package files
 COPY client/package*.json ./client/
 WORKDIR /app/client
-RUN npm ci
+# Use --legacy-peer-deps to handle peer dependency conflicts
+RUN npm ci --legacy-peer-deps
 # Copy Angular source
 COPY client/ ./
 # Build Angular (outputs to ../API/wwwroot relative to client dir)
