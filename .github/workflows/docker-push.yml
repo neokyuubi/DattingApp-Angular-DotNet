@@ -9,6 +9,9 @@ on:
 
 jobs:
   docker:
+    # Only run on pushes to the original repository (neokyuubi/DattingApp-Angular-DotNet)
+    # This prevents forks from triggering builds that would push to your Docker Hub
+    if: github.repository == 'neokyuubi/DattingApp-Angular-DotNet'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
