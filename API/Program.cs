@@ -6,6 +6,7 @@ using API.SignalR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,29 +16,59 @@ builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 
-// var connString = "";
-// if (builder.Environment.IsDevelopment()) 
-//     connString = builder.Configuration.GetConnectionString("DefaultConnection");
-// else 
-// {
-// // Use connection string provided at runtime by Heroku (PAID now so cannot test it anymore).
-//         var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+var connString = "";
+if (builder.Environment.IsDevelopment()) 
+{
+    connString = builder.Configuration.GetConnectionString("DefaultConnection");
+}
+else 
+{
+    // Use connection string provided at runtime by Render (or Heroku)
+    var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
-//         // Parse connection URL to connection string for Npgsql
-//         connUrl = connUrl.Replace("postgres://", string.Empty);
-//         var pgUserPass = connUrl.Split("@")[0];
-//         var pgHostPortDb = connUrl.Split("@")[1];
-//         var pgHostPort = pgHostPortDb.Split("/")[0];
-//         var pgDb = pgHostPortDb.Split("/")[1];
-//         var pgUser = pgUserPass.Split(":")[0];
-//         var pgPass = pgUserPass.Split(":")[1];
-//         var pgHost = pgHostPort.Split(":")[0];
-//         var pgPort = pgHostPort.Split(":")[1];
+    if (!string.IsNullOrEmpty(connUrl))
+    {
+        try
+        {
+            // Parse connection URL to connection string for Npgsql
+            // Format: postgres://user:password@host:port/database
+            connUrl = connUrl.Replace("postgres://", string.Empty);
+            var parts = connUrl.Split("@");
+            if (parts.Length != 2) throw new ArgumentException("Invalid DATABASE_URL format");
+            
+            var pgUserPass = parts[0];
+            var pgHostPortDb = parts[1];
+            
+            var hostDbParts = pgHostPortDb.Split("/");
+            if (hostDbParts.Length < 2) throw new ArgumentException("Invalid DATABASE_URL format");
+            
+            var pgHostPort = hostDbParts[0];
+            var pgDb = hostDbParts[1].Split("?")[0]; // Remove query parameters if any
+            
+            var userPassParts = pgUserPass.Split(":");
+            if (userPassParts.Length < 2) throw new ArgumentException("Invalid DATABASE_URL format");
+            
+            var pgUser = Uri.UnescapeDataString(userPassParts[0]);
+            var pgPass = Uri.UnescapeDataString(string.Join(":", userPassParts.Skip(1))); // Handle passwords with colons
+            
+            var hostPortParts = pgHostPort.Split(":");
+            var pgHost = hostPortParts[0];
+            var pgPort = hostPortParts.Length > 1 ? hostPortParts[1] : "5432";
 
-//         connString = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};";
-// }
-// connString = builder.Configuration.GetConnectionString("DefaultConnection");
-var connString = Environment.GetEnvironmentVariable("DATABASE_URL") ?? builder.Configuration.GetConnectionString("DefaultConnection");
+            connString = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};SSL Mode=Require;Trust Server Certificate=true;";
+        }
+        catch (Exception ex)
+        {
+            var logger = builder.Services.BuildServiceProvider().GetService<ILogger<Program>>();
+            logger?.LogError(ex, "Failed to parse DATABASE_URL, falling back to configuration");
+            connString = builder.Configuration.GetConnectionString("DefaultConnection");
+        }
+    }
+    else
+    {
+        connString = builder.Configuration.GetConnectionString("DefaultConnection");
+    }
+}
 builder.Services.AddDbContext<DataContext>(opt =>
 {
     opt.UseNpgsql(connString);
@@ -47,8 +78,15 @@ var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
 
-// app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200")); // if no ssl certifacate is installed
-app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://localhost:4200"));
+if (builder.Environment.IsDevelopment())
+{
+    app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://localhost:4200"));
+}
+else
+{
+    // In production, allow requests from the Render frontend URL
+    app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://dating-app-jiu1.onrender.com"));
+}
 
 
 app.UseAuthentication();
