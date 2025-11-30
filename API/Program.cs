@@ -31,8 +31,9 @@ else
         try
         {
             // Parse connection URL to connection string for Npgsql
-            // Format: postgres://user:password@host:port/database
-            connUrl = connUrl.Replace("postgres://", string.Empty);
+            // Format: postgres://user:password@host:port/database or postgresql://user:password@host:port/database
+            // Remove both postgres:// and postgresql:// prefixes
+            connUrl = connUrl.Replace("postgresql://", string.Empty).Replace("postgres://", string.Empty);
             var parts = connUrl.Split("@");
             if (parts.Length != 2) throw new ArgumentException("Invalid DATABASE_URL format");
             
